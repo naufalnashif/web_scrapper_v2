@@ -11,7 +11,7 @@ def render_instagram_dashboard(df_profiles, df_posts):
         st.warning("Data profil tidak ditemukan untuk divisualisasikan. Pastikan scraping berhasil di tab Logs.")
         return
 
-    res_tab_ov, res_tab_det = st.tabs(["🏠 Overview Visuals", "📋 Result Details"])
+    res_tab_ov, res_tab_det, res_tab_dict = st.tabs(["🏠 Overview Visuals", "📋 Result Details", "📝 Data Dictionary"])
     with res_tab_ov:
         with st.expander("📊 Key Metrics", expanded=True):
             col1, col2 = st.columns(2)
@@ -197,7 +197,55 @@ def render_instagram_dashboard(df_profiles, df_posts):
                 for fmt, col in zip(["CSV", "Excel", "JSON", "TXT"], [cp1, cp2, cp3, cp4]):
                     data, mime = get_download_link(all_posts, fmt)
                     col.download_button(f"Download Posts ({fmt})", data, file_name=f"posts.{fmt.lower()}", mime=mime)
-        
+    with res_tab_dict:
+
+        # --- SECTION 1: PROFILE METADATA ---
+        with st.expander("👤 Profile Information Metadata", expanded=True):
+            st.markdown("""
+            Data ini berkaitan dengan identitas akun dan performa akumulatif profil.
+            """)
+            profile_meta = [
+                {"Field": "userid", "Type": "Numeric ID", "Description": "ID unik internal Instagram untuk akun tersebut."},
+                {"Field": "username", "Type": "String", "Description": "Handle akun yang digunakan untuk login dan URL profil."},
+                {"Field": "followers", "Type": "Integer", "Description": "Jumlah total akun yang mengikuti profil ini."},
+                {"Field": "engagement_rate", "Type": "Float (%)", "Description": "Rata-rata interaksi (Likes + Comments) dibagi jumlah followers."},
+                {"Field": "is_business", "Type": "Boolean", "Description": "Menandakan apakah akun dikategorikan sebagai akun Bisnis/Kreator."},
+                {"Field": "is_verified", "Type": "Boolean", "Description": "Status centang biru (Authenticity Verified)."},
+            ]
+            st.table(profile_meta)
+
+        # --- SECTION 2: POST METRICS ---
+        with st.expander("📝 Content & Engagement Metrics", expanded=False):
+            st.markdown("""
+            Definisi data yang diekstrak dari setiap postingan individu di timeline.
+            """)
+            post_meta = [
+                {"Field": "date", "Type": "Datetime", "Description": "Waktu publikasi postingan (Waktu Lokal/WIB)."},
+                {"Field": "caption", "Type": "Text", "Description": "Isi teks atau deskripsi yang ditulis oleh pemilik akun."},
+                {"Field": "likes", "Type": "Integer", "Description": "Jumlah tanda suka (Heart) pada saat pengambilan data."},
+                {"Field": "comments_count", "Type": "Integer", "Description": "Jumlah total komentar publik pada postingan."},
+                {"Field": "is_video", "Type": "Boolean", "Description": "True jika postingan berupa Reels atau Video tunggal."},
+                {"Field": "video_view_count", "Type": "Integer", "Description": "Jumlah tayangan video (Hanya tersedia jika is_video = True)."},
+                {"Field": "hashtags", "Type": "List/Array", "Description": "Kumpulan tagar (#) yang digunakan dalam caption."},
+                {"Field": "tagged_users", "Type": "List/Array", "Description": "Username akun lain yang ditandai di dalam foto/video."},
+            ]
+            st.table(post_meta)
+
+        # --- SECTION 3: TECHNICAL AUDIT ---
+        with st.expander("🛠️ Technical Data Audit", expanded=False):
+            st.markdown("""
+            Metadata sistem untuk kebutuhan audit dan validasi data.
+            """)
+            tech_meta = [
+                {"Field": "scraped_at", "Type": "Timestamp", "Description": "Waktu presisi saat mesin scraper mengambil data dari server."},
+                {"Field": "platform", "Type": "String", "Description": "Sumber asal data (Instagram)."},
+                {"Field": "url", "Type": "String URL", "Description": "Direct link menuju postingan asli."},
+                {"Field": "location", "Type": "String/None", "Description": "Nama lokasi geotag jika dicantumkan pada postingan."},
+            ]
+            st.table(tech_meta)
+
+        st.info("💡 **Tips:** Data Dictionary ini sangat berguna saat Anda mengekspor data ke Excel untuk memastikan tim analis menggunakan kolom yang tepat untuk rumus kalkulasi mereka.")
+
         # Section Raw JSON yang bisa di-hide (Expander)
         st.divider()
         with st.expander("📦 Lihat Raw JSON Data", expanded=False):

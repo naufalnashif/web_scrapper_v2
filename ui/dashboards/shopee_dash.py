@@ -33,7 +33,7 @@ def render_shopee_dashboard(df_profiles, df_posts):
         display_posts = df_posts
 
 
-    tab_ov, tab_det = st.tabs(["🏠 Analysis Overview", "📋 Detailed Data List"])
+    tab_ov, tab_det, res_tab_dict = st.tabs(["🏠 Analysis Overview", "📋 Detailed Data List", "📝 Data Dictionary"])
 
     with tab_ov:
         # --- KPI METRICS (Berdasarkan display_profiles) ---
@@ -95,3 +95,38 @@ def render_shopee_dashboard(df_profiles, df_posts):
             )
         else:
             st.write("Data produk tidak tersedia.")
+
+    with res_tab_dict:
+
+        with st.expander("🏪 Shop/Seller Information", expanded=True):
+            meta_sh_p = [
+                {"Field": "shop_name", "Type": "String", "Description": "Nama resmi toko di platform Shopee."},
+                {"Field": "username", "Type": "String", "Description": "Handle unik penjual (Seller ID)."},
+                {"Field": "followers", "Type": "Integer", "Description": "Total pengikut toko."},
+                {"Field": "item_count", "Type": "Integer", "Description": "Jumlah total SKU/produk dalam toko."},
+                {"Field": "rating_star", "Type": "Float", "Description": "Rating rata-rata toko dari pembeli."},
+                {"Field": "response_rate", "Type": "Percentage", "Description": "Persentase kecepatan seller membalas chat."},
+            ]
+            st.table(meta_sh_p)
+
+        with st.expander("📦 Product & Sales Metrics", expanded=False):
+            meta_sh_v = [
+                {"Field": "caption", "Type": "String", "Description": "Nama lengkap produk yang tertera di katalog."},
+                {"Field": "price", "Type": "IDR (Float)", "Description": "Harga produk (Dikonversi dari satuan internal Shopee)."},
+                {"Field": "sold", "Type": "Integer", "Description": "Total unit yang telah terjual (Historical Sold)."},
+                {"Field": "stock", "Type": "Integer", "Description": "Jumlah stok yang tersedia untuk dipesan."},
+                {"Field": "likes", "Type": "Integer", "Description": "Jumlah user yang memfavoritkan produk ini."},
+                {"Field": "url", "Type": "URL", "Description": "Direct link menuju halaman produk Shopee."},
+                {"Field": "date", "Type": "Timestamp", "Description": "Waktu pengambilan data harga dan stok."},
+            ]
+            st.table(meta_sh_v)
+
+        with st.expander("🛠️ Technical Data Audit", expanded=False):
+            tech_meta = [
+                {"Field": "url", "Type": "URL", "Description": "Link langsung ke halaman produk Shopee."},
+                {"Field": "date", "Type": "Timestamp", "Description": "Waktu pengambilan data harga & stok."},
+                {"Field": "username", "Type": "String", "Description": "ID unik penjual untuk referensi API."},
+            ]
+            st.table(tech_meta)
+
+        st.info("💡 **Tips:** Data harga diambil secara real-time. Jika ada diskon kilat (Flash Sale), harga yang tercatat adalah harga saat scraping dilakukan.")

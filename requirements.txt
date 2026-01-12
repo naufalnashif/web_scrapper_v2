@@ -10,3 +10,5 @@ fpdf2
 openpyxl
 yt-dlp
 httpx
+google-play-scraper
+gnews

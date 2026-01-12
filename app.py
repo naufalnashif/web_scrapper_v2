@@ -6,9 +6,14 @@ from ui.sidebar import render_sidebar
 from ui.dashboards.instagram_dash import render_instagram_dashboard
 from ui.dashboards.tiktok_dash import render_tiktok_dashboard
 from ui.dashboards.shopee_dash import render_shopee_dashboard
+from ui.dashboards.playstore_dash import render_playstore_dashboard
+from ui.dashboards.googlemaps_dash import render_googlemaps_dashboard
+from ui.dashboards.googlenews_dash import render_googlenews_dashboard
+from ui.dashboards.googlejobs_dash import render_googlejobs_dashboard
+from ui.dashboards.linkedin_dash import render_linkedin_dashboard
 
 
-st.set_page_config(page_title="Paragon Scraper Specialist", layout="wide")
+st.set_page_config(page_title="Scraper Specialist", layout="wide")
 
 render_header()
 render_sidebar() # Memanggil sidebar yang sudah diperbaiki
@@ -72,6 +77,16 @@ with tab_dash:
                 render_tiktok_dashboard(df_profiles, df_posts)
             elif current_platform == "Shopee":
                 render_shopee_dashboard(df_profiles, df_posts)
+            elif current_platform == "PlayStore":
+                render_playstore_dashboard(df_profiles, df_posts)
+            elif current_platform == "GoogleMaps":
+                render_googlemaps_dashboard(df_profiles, df_posts)
+            elif current_platform == "GoogleNews":
+                render_googlenews_dashboard(df_profiles, df_posts)
+            elif current_platform == "GoogleJobs":
+                render_googlejobs_dashboard(df_profiles, df_posts)
+            elif current_platform == "LinkedIn":
+                render_linkedin_dashboard(df_profiles, df_posts)
 
 with tab_logs:
     render_terminal_logs(st.session_state.logs)

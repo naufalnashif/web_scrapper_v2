@@ -19,7 +19,7 @@ Platform *Data Intelligence* terintegrasi yang dirancang untuk melakukan ekstrak
 ## 📺 Demo & Tutorial
 Klik gambar di bawah ini untuk melihat demonstrasi cara penggunaan alat ini di YouTube:
 
-[![Tutorial Demo Scraper](assets/image/yutub-demo.png)](https://youtu.be/qUwAoj7KjAQ)
+<!-- [![Tutorial Demo Scraper](assets/image/yutub-demo.png)](https://youtu.be/qUwAoj7KjAQ) -->
 
 ---
 

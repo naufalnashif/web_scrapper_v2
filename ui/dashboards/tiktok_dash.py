@@ -12,7 +12,7 @@ def render_tiktok_dashboard(df_profiles, df_posts):
         return
 
     # --- TABS NAVIGATION ---
-    res_tab_ov, res_tab_det = st.tabs(["🏠 Overview Visuals", "📋 Result Details"])
+    res_tab_ov, res_tab_det, res_tab_dict = st.tabs(["🏠 Overview Visuals", "📋 Result Details", "📝 Data Dictionary"])
 
     with res_tab_ov:
         # --- SECTION 1: KPI PER USER (DIPISAHKAN) ---
@@ -118,3 +118,39 @@ def render_tiktok_dashboard(df_profiles, df_posts):
                     col.download_button(f"Download Posts ({fmt})", data, file_name=f"tk_posts.{fmt.lower()}", mime=mime)
             else:
                 st.info("Tidak ada data postingan.")
+
+
+    with res_tab_dict:
+
+        with st.expander("👤 Creator Profile Metadata", expanded=True):
+            meta_tk_p = [
+                {"Field": "username", "Type": "String", "Description": "Handle unik pengguna (@username)."},
+                {"Field": "followers", "Type": "Integer", "Description": "Jumlah pengikut akun saat ini."},
+                {"Field": "following", "Type": "Integer", "Description": "Jumlah akun yang diikuti kreator."},
+                {"Field": "heart_count", "Type": "Integer", "Description": "Total akumulasi Like pada seluruh profil."},
+                {"Field": "video_count", "Type": "Integer", "Description": "Jumlah total video yang dipublikasi."},
+                {"Field": "engagement_rate", "Type": "Float (%)", "Description": "Rasio interaksi rata-rata terhadap jumlah pengikut."},
+            ]
+            st.table(meta_tk_p)
+
+        with st.expander("🎥 Content Engagement Metrics", expanded=False):
+            meta_tk_v = [
+                {"Field": "date", "Type": "Datetime", "Description": "Tanggal dan waktu video diunggah."},
+                {"Field": "caption", "Type": "Text", "Description": "Teks deskripsi video atau judul konten."},
+                {"Field": "views", "Type": "Integer", "Description": "Total tayangan video (Play Count)."},
+                {"Field": "likes", "Type": "Integer", "Description": "Jumlah tanda hati (Digg Count) pada video."},
+                {"Field": "comments_count", "Type": "Integer", "Description": "Jumlah total komentar publik."},
+                {"Field": "shares", "Type": "Integer", "Description": "Berapa kali video dibagikan/repost."},
+                {"Field": "url", "Type": "URL", "Description": "Direct link menuju video TikTok terkait."},
+            ]
+            st.table(meta_tk_v)
+
+        with st.expander("🛠️ Technical Data Audit", expanded=False):
+            tech_meta = [
+                {"Field": "url", "Type": "URL", "Description": "Link langsung menuju video TikTok."},
+                {"Field": "date", "Type": "Datetime", "Description": "Waktu publikasi video."},
+                {"Field": "scraped_at", "Type": "Timestamp", "Description": "Waktu pengambilan data oleh sistem."},
+            ]
+            st.table(tech_meta)
+
+        st.info("💡 **Tips:** Metrik 'shares' di TikTok adalah indikator viralitas yang lebih kuat dibandingkan 'likes'.")
