@@ -1,0 +1,28 @@
+name: Sync to Hugging Face Hub
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true # Wajib True karena ada image di README
+
+      - name: Install LFS
+        run: git lfs install
+
+      - name: Push to Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "naufalnashif@example.com"
+          git config --global user.name "Naufal Nashif"
+          
+          # Gunakan mapping main:main jika HF sudah menggunakan main
+          # Atau main:master jika HF masih menggunakan master
+          git push --force https://naufalnashif:$HF_TOKEN@huggingface.co/spaces/naufalnashif/web_scrapper_v2 main:main

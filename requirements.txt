@@ -1,0 +1,12 @@
+flask
+streamlit
+pandas
+requests
+instaloader
+beautifulsoup4
+plotly
+xlsxwriter
+fpdf2
+openpyxl
+yt-dlp
+httpx

@@ -1,0 +1,16 @@
+[theme]
+primaryColor = "#0354B8"
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#1A1C23"
+textColor = "#FFFFFF"
+font = "sans serif"
+
+[server]
+# Mengatur port (default 8501)
+port = 8501
+# Menghilangkan notifikasi update di terminal
+headless = true
+
+[browser]
+# Membuka browser otomatis saat running
+gatherUsageStats = false
