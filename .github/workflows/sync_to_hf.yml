@@ -25,4 +25,4 @@ jobs:
           
           # Gunakan mapping main:main jika HF sudah menggunakan main
           # Atau main:master jika HF masih menggunakan master
-          git push --force https://naufalnashif:$HF_TOKEN@huggingface.co/spaces/naufalnashif/web_scrapper_v2 main:main
+          git push --force https://naufalnashif:$HF_TOKEN@huggingface.co/spaces/naufalnashif/web_scrapper main:main
